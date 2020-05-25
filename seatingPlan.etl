@@ -1,0 +1,177 @@
+
+rule Dining2D
+	transform sd : Source!Dining
+	to td : Target!Dining {
+
+	td.tables.addAll(sd.tables.equivalent());
+	td.attendees.addAll(sd.attendees.equivalent());
+	
+}
+
+rule Table2T
+	transform st : Source!Table
+	to tt : Target!Table{
+	
+	//guard : st.seats.size()>0
+	//modifiy same table number
+	var tableID : Sequence =Target!Table.all.ID;
+	//tableID.println();
+		
+	if(tableID.contains(st.ID))
+		tt.ID = tableID.max()+1;
+	else
+		tt.ID = st.ID;
+	tt.attendees::=st.attendees;	
+	tt.maximun = st.maximun;
+	tt.seats.addAll(st.seats.equivalent());
+	//modifiy the tabel overload
+	if(tt.attendees.size()>tt.maximun){
+		var overloadNum = tt.attendees.size() - tt.maximun;
+		overloadNum.println("overload=");
+		var NewTable : new Target!Table;
+		td.tables.add(NewTable);
+		NewTable.ID = Source!Table.all.size()+1;
+		NewTable.maximun = 10;
+		var c = 1;
+		//create seats
+		while(c<=10){
+			var NewSeat : new Target!Seat;
+			NewSeat.seatNumber = c;
+			NewSeat.table = NewTable;
+			NewTable.seats.add(NewSeat);
+			c++;
+		}
+
+		while(overloadNum>0){
+		
+			NewTable.attendees.add(tt.attendees.at(tt.maximun+overloadNum-1));
+			tt.attendees.remove(tt.attendees.at(tt.maximun+overloadNum-1));
+			overloadNum=overloadNum-1;
+		}
+	}
+	
+	
+	
+	
+}
+
+rule Seat2S
+	transform ss : Source!Seat
+	to ts : Target!Seat{
+	
+	
+	ts.seatNumber = ss.seatNumber;
+	ts.table ::=ss.table;
+	ts.attendee ::= ss.attendee;
+
+}
+
+rule Attendee2A
+	transform sa: Source!Attendee
+	to ta : Target!Attendee{
+	
+	ta.name = sa.name;
+	ta.dept = sa.dept;
+	ta.likes ::= sa.likes;
+	ta.dislikes ::= sa.dislikes;
+	
+	ta.languages.addAll(sa.languages.equivalent());
+	
+}
+	
+
+	
+	
+rule Language2L
+	transform sl:Source!Language
+	to tl : Target!Language{
+	
+	tl.name = sl.name;
+	
+}
+	
+post{
+	//modifiy cannot talk
+	//Target!Seat.all.collect(s|s.checkLan());
+	//modofiy no seat and sitng with dislike person
+	//Target!Attendee.all.collect(a|a.check()).println();
+	 
+}
+	//modofty cannot talk
+operation Target!Seat checkLan(){
+	if(self.attendee<>null){
+		if(not self.canTalk().contains(self.attendee.name)){
+			self.attendee.println("||||");
+		
+		Target!Seat.all.select(s|s.attendee==null).first().println("123").attendee=self.attendee;
+		Target!Seat.all.select(s|s.attendee==self.attendee).first().attendee=null;
+		}
+	}
+	
+
+}
+operation Target!Attendee check(){
+
+	//dislike
+	
+		if(not Source!Table.all.select(t|t.attendees.name.includes(self.name)).
+				attendees.flatten().name.excludesAll(self.dislikes.name)){
+				if(Target!Seat.all.select(s|s.attendee==self).first().println()<>null){
+				Target!Seat.all.select(s|s.attendee==self).first().println().attendee=null;
+				}
+			
+			Target!Seat.all.select(s|s.attendee==null).first().println().attendee=self;
+			
+			self.println("dislike");
+			return false;
+		}
+	
+	//no seat
+	
+		if(not Source!Seat.all.attendee.name.includes(self.name)){
+			
+			Target!Seat.all.select(s|s.attendee==null).first().println().attendee=self;
+			return false;
+		}
+
+	return true;
+}
+
+
+	
+//get who can talk	
+operation Target!Seat Talker(){
+var haveTalker : Set;
+	for(i in self.table.ID){
+
+		var j=self.seatNumber+1;
+		if(j>self.table.maximun){
+			j = 1;
+		}
+
+			
+		if(not Source!Seat.all.select(s|s.seatNumber==self.seatNumber and s.table.ID==i).attendee.languages.flatten().name.
+			excludesAll(Source!Seat.all.select(s|s.seatNumber==j and s.table.ID==i).attendee.languages.flatten().
+				name))
+		{
+		
+			haveTalker.add(self.attendee.name);
+			haveTalker.add(Source!Seat.all.select(s|s.seatNumber==j and s.table.ID==i).attendee.name.flatten());
+			
+		}
+
+	}
+	
+	return haveTalker.flatten();	
+}
+
+
+operation Target!Seat canTalk(){
+	var talker : Sequence;
+	talker.add(self.Talker().at(0));
+	talker.add(self.Talker().at(1));
+
+	return talker;
+
+}
+

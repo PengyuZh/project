@@ -1,0 +1,47 @@
+import "test.eol";
+
+@model
+operation setUp(){
+	runTarget("seatingPlan");
+}
+
+@test
+operation testTableID(){
+	
+	//test table id is not null
+	for (table in Source!Table.all){
+		assertNotEquals(table.ID,null);
+		//test empty table
+		assertNotEquals(table.attendees.size(),0);
+	}
+	//test repeated id
+	var tableIDSet : Sequence =Source!Table.all.ID;
+	assertEquals(tableIDSet.asSet().size(),Source!Table.all.size());
+	
+}
+@test
+operation testOverload(){
+	for (table in Source!Table.all){
+		assertTrue(table.maximun>=table.attendees.size());
+	}
+
+}
+@test
+operation testEveryoneHasSeat(){
+	for (attendee in Source!Attendee.all){
+		assertTrue(Source!Seat.all.attendee.name.includes(attendee.name));
+	}
+	
+}
+@test
+operation testAttendee(){
+	for (attendee in Source!Attendee.all){
+	assertTrue(attendee.check());
+	}
+}
+@test
+operation testLanguage(){
+	for (seat in Source!Seat.all){
+		assertTrue(seat.checkLan());
+	}
+}

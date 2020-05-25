@@ -1,0 +1,20 @@
+<project>
+
+	<target name="run-tests">
+		<epsilon.emf.register file="seatingPlan.ecore"/>
+		<epsilon.eunit src="test.eunit" failOnErrors="false">
+			<modelTasks>
+				<epsilon.emf.loadModel name="Source" modelfile="seatingPlan.model"
+			    	metamodelfile="seatingPlan.ecore" read="true" store="false"/>
+				<epsilon.emf.loadModel name="Target" modelfile="Target.model"
+			    	metamodelfile="targetModel.ecore" read="false" store="ture"/>
+			</modelTasks>
+		</epsilon.eunit>
+	</target>
+	<target name="seatingPlan">
+		<epsilon.etl src="seatingPlan.etl">
+			<model ref="Source"/>
+			<model ref="Target"/>
+		</epsilon.etl>
+	</target>
+</project>

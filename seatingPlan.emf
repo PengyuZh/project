@@ -1,0 +1,37 @@
+@namespace(uri="seatingPlan", prefix="")
+package project;
+
+class Dining {
+  val Table[*] tables;
+  val Attendee[*] attendees;
+}
+
+class Table {
+  attr Integer ID;
+  attr Integer maximun;
+  val Seat[*] seats;
+  ref Attendee[*] attendees;
+}
+
+class Attendee {
+  attr String name;
+  attr String dept;
+
+  ref Attendee[*] likes;
+
+  ref Attendee[*] dislikes;
+
+  val Language[*] languages;
+}
+
+
+class Language {
+  attr String name;
+}
+
+class Seat {
+  attr Integer seatNumber;
+  ref Table table;
+  ref Attendee attendee;
+}
+

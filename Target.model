@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<Dining xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="seatingPlan" xsi:schemaLocation="seatingPlan targetModel.ecore">
+  <tables ID="1" maximun="5" attendees="//@attendees.0 //@attendees.1">
+    <seats seatNumber="1" table="//@tables.0" attendee="//@attendees.0"/>
+    <seats seatNumber="2" table="//@tables.0" attendee="//@attendees.1"/>
+  </tables>
+  <tables ID="2" maximun="5" attendees="//@attendees.2 //@attendees.3">
+    <seats seatNumber="1" table="//@tables.1" attendee="//@attendees.2"/>
+    <seats seatNumber="2" table="//@tables.1" attendee="//@attendees.3"/>
+  </tables>
+  <tables ID="3" maximun="5" attendees="//@attendees.4 //@attendees.5">
+    <seats seatNumber="1" table="//@tables.2" attendee="//@attendees.4"/>
+    <seats seatNumber="2" table="//@tables.2" attendee="//@attendees.5"/>
+    <seats table="//@tables.2"/>
+  </tables>
+  <attendees name="A1" dept="D1">
+    <languages name="E"/>
+  </attendees>
+  <attendees name="A2" dept="D1">
+    <languages name="E"/>
+  </attendees>
+  <attendees name="A3" dept="D1">
+    <languages name="E"/>
+  </attendees>
+  <attendees name="A4" dept="D2">
+    <languages name="E"/>
+    <languages name="C"/>
+  </attendees>
+  <attendees name="A5" dept="D2">
+    <languages name="E"/>
+  </attendees>
+  <attendees name="A6" dept="D2">
+    <languages name="E"/>
+  </attendees>
+</Dining>
