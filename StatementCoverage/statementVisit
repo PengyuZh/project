@@ -1,0 +1,9 @@
+	private boolean statementVisited = false;
+	@Override
+	public boolean getVisited() {
+	    return this.statementVisited;
+	}
+	@Override
+	public void setVisited() {
+	    this.statementVisited = true;
+	}
