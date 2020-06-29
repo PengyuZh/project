@@ -22,12 +22,16 @@ public class EunitTestCaseListener implements EUnitTestListener{
 	@Override
 	public void afterCase(EUnitModule module, EUnitTest test) {
 		// TODO Auto-generated method stub
-		System.out.println(test.getCaseName()+"\t"+test.getResult());
-		System.out.println(test.getCaseName()+"\tcoveredLines"+listener.getCoverage());
+		
+		//Analyze statement coverage
 		coveredLinesForEachCase = listener.getCoverage();
 		int numberOfCoveredLines = coveredLinesForEachCase.size();
 		int totalLinse = module.getImports().get(0).getImportedModule().getRegion().getEnd().getLine();
 		float statementCoverage = (100/totalLinse)*numberOfCoveredLines;
+		
+		//print out result, executed lines and statement coverage for each test case
+		System.out.println(test.getCaseName()+"\t"+test.getResult());
+		System.out.println(test.getCaseName()+"\tcoveredLines"+listener.getCoverage());
 		System.out.println(test.getCaseName()+"\tStatementCoverage:"+statementCoverage);
 		
 		listener.resetCoveredLinse();
