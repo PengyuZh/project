@@ -1,0 +1,20 @@
+operation test(){
+	var a = 100;
+	var b = 200;
+	var i = 0;
+	if (a == b){
+		i = 1;
+	}
+	return i;
+}
+operation test2(){
+	var result = test3();
+	return result;
+}
+operation test3(){
+	var sum=0;
+	for(i in Sequence{1..100}){
+		sum=sum+i;
+	}
+	return sum;
+}

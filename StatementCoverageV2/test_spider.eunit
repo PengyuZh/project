@@ -1,0 +1,11 @@
+import "my_spider.eol";
+@test
+operation testCase1(){	
+	assertEquals(test(),1);
+}
+
+@test
+operation testCase2(){
+	assertEquals(test2(),5500);
+	
+}
