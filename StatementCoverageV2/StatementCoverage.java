@@ -24,8 +24,8 @@ public class StatementCoverage {
 
 	}
 	private static String ParseFile = "src/org/eclipse/epsilon/eol/coverage/my_spider.eol";
-		public static void main(String[] args) {
-		
+	public static void main(String[] args) {
+		//parse EOL module
 		EolModule module = new EolModule();
 		File EolFile = new File(ParseFile);
 		try {
@@ -34,7 +34,7 @@ public class StatementCoverage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		//parse EUnit module
 		EUnitModule eunitModule = new EUnitModule();
 		
 		File eunitFile = new File("src/org/eclipse/epsilon/eol/coverage/test_spider.eunit");
@@ -44,9 +44,12 @@ public class StatementCoverage {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		//add EUnit test case listener
 		EunitTestCaseListener testCaseListener = new EunitTestCaseListener();
 		eunitModule.addTestListener(testCaseListener);
-				
+		
+		//run the EUnit module
 		try {
 			eunitModule.execute();
 			
