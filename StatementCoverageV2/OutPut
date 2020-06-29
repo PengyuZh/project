@@ -1,0 +1,9 @@
+testCase1	FAILURE
+testCase1	coveredLines[1, 2, 3, 4, 5, 7, 8, 9]
+testCase1	StatementCoverage:40.0
+testCase2	FAILURE
+testCase2	coveredLines[10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+testCase2	StatementCoverage:55.0
+root	FAILURE
+root	coveredLines[]
+root	StatementCoverage:0.0
