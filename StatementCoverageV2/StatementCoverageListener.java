@@ -24,9 +24,10 @@ public class StatementCoverageListener implements IExecutionListener {
 	public void finishedExecuting(ModuleElement ast, Object result, IEolContext context) {
 		
 		//ast.setVisited();
-		
 		//System.out.println(ast.getFile().getName().toString().contains("eol"));
 		
+		
+		//get lines which are executed
 		if (ast.getFile().getName().toString().contains("eol")) {
 			
 			if(coveredLines.contains(ast.getRegion().getEnd().getLine())==false){
@@ -37,14 +38,9 @@ public class StatementCoverageListener implements IExecutionListener {
 			}
 			coveredLines.sort(null);
 			
-		}
-		
+		}	
 		// TODO Auto-generated method stub
 		
-	}
-	public List<Integer> getCoverage() {
-		
-		return coveredLines;
 	}
 
 	@Override
@@ -56,4 +52,8 @@ public class StatementCoverageListener implements IExecutionListener {
 		coveredLines.clear();
 	}
 	
+	public List<Integer> getCoverage() {
+		
+		return coveredLines;
+	}
 }
